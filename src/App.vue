@@ -7,15 +7,17 @@ function randomRangeNumber(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-const { data: characterData } = useFetch<ICharacter>(`https://rickandmortyapi.com/api/character/${randomRangeNumber(1, 800)}`);
+const { data } = useFetch<ICharacter>(`https://rickandmortyapi.com/api/character/${randomRangeNumber(1, 800)}`);
 
 </script>
 
 <template>
   <main>
-    <CharacterCard v-if="characterData" :is-favorite="randomRangeNumber(0, 1) === 1" :character-data="characterData" />
-    <CharacterCard v-if="characterData" :is-favorite="randomRangeNumber(0, 1) === 1" :character-data="characterData" />
-    <CharacterCard v-if="characterData" :is-favorite="randomRangeNumber(0, 1) === 1" :character-data="characterData" />
+    <CharacterCard
+      v-if="data"
+      :is-favorite="randomRangeNumber(0, 1) === 1"
+      :character-data="data"
+      />
   </main>
 </template>
 

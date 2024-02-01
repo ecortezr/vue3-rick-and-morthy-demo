@@ -4,7 +4,7 @@ import { useFetch } from '@/composables/fetchData';
 import FavoriteIcon from './icons/IconFavorite.vue'
 import FavoriteActiveIcon from './icons/IconFavoriteActive.vue'
 import { computed } from 'vue';
-
+ 
 const props = defineProps<{
     characterData: ICharacter,
     isFavorite?: boolean
@@ -67,7 +67,6 @@ const classObject = computed(() => ({
 </template>
 <style scoped>
 .card {
-    flex: 1 1 auto;
     align-self: auto;
     height: 140px;
     position: relative;

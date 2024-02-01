@@ -10,8 +10,8 @@ export function useFetch<T>(url: string | Ref | Function) {
 
         fetch(toValue(url))
             .then((res) => res.json())
-            .then((json) => (data.value = json as T))
-            .catch((err) => (error.value = err));
+            .then((json) => data.value = json as T)
+            .catch((err) => error.value = err);
     }
 
     watchEffect(() => {

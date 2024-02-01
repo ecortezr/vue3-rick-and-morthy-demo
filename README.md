@@ -1,6 +1,6 @@
 # vue3-rick-and-morthy-demo
 
-This template should help get you started developing with Vue 3 in Vite.
+This vue app shows a demo of how build a component based on a [Figma design](). The component is `CharacterCard` and its function is to show some details from the [Rick and Morty Restful API]().
 
 ## Recommended IDE Setup
 
@@ -19,7 +19,71 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
 
 ## Customize configuration
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+The target component `CharacterCard` receive two props to produce a result. The first one is an object with the character data and the second one is related to be a favorite or not.
+
+This is the description of the expected object:
+
+```json
+type Location = {
+    name: string;
+    url: string;
+}
+
+interface ICharacter {
+    id: number;
+    name: string;
+    status: string;
+    species: string;
+    type: string;
+    gender: string;
+    origin: Location;
+    location: Location;
+    image: string;
+    episode: string[];
+    url: string;
+    created: Date;
+}
+```
+
+and this is the props definition:
+
+```ts
+const props = defineProps<{
+    characterData: ICharacter,
+    isFavorite?: boolean
+}>()
+```
+
+The optional `isFavorite` prop is `false` by default.
+
+In the main Component `App` was created a sort of implementation for the component `CharacterCard`. Basically, I calculate a random number, to define the `id` to use when call the `character` endpoint. At the same time, a boolean is generated randomly to define if the character is a favorite or not.
+
+```vue
+<script setup lang="ts">
+import type { ICharacter } from '@/types'
+import CharacterCard from './components/CharacterCard.vue'
+import { useFetch } from '@/composables/fetchData';
+
+function randomRangeNumber(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+const { data } = useFetch<ICharacter>(`https://rickandmortyapi.com/api/character/${randomRangeNumber(1, 800)}`);
+
+</script>
+
+<template>
+  <main>
+    <CharacterCard
+        v-if="data"
+        :is-favorite="randomRangeNumber(0, 1) === 1"
+        :character-data="data"
+        />
+  </main>
+</template>
+```
+
+IMPORTANT: This is a [Vite](https://vitejs.dev/) project. You can see details on [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Project Setup
 
@@ -39,6 +103,12 @@ pnpm dev
 pnpm build
 ```
 
+### Run Tests with [Vitest](https://vitest.dev/)
+
+```sh
+pnpm test
+```
+
 ### Run Unit Tests with [Vitest](https://vitest.dev/)
 
 ```sh
@@ -50,4 +120,4 @@ pnpm test:unit
 ```sh
 pnpm lint
 ```
-# vue3-rick-and-morthy-demo
+
